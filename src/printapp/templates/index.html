@@ -137,7 +137,12 @@
             <tbody>
               {{#each item in controllers.queue}}
                 <tr>
-                  <td>{{item.name}}</td>
+                  <td class="document-title">
+                    <a {{action 'deleteJob' item.job_id}} title="Delete document from queue">
+                      <i class="fa fa-times-circle fa-lg delete-cross" title="Delete document from queue"></i>
+                    </a>
+                    {{item.name}}
+                  </td>
                   <td>{{item.displayDate}}</td>
                   <td>{{item.displayPages}}</td>
                   <td>{{item.displayPrice}}</td>

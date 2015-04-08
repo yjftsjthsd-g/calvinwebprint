@@ -37,7 +37,7 @@ class _UniflowClient:
         self._queue_scraper.sign_in(self._username, self._password)
         return self._queue_scraper.fetch_data()
 
-PrintJob = namedtuple('PrintJob',['name', 'pages', 'copies',
+PrintJob = namedtuple('PrintJob',['job_id', 'name', 'pages', 'copies',
                                   'price', 'printer_name', 'date'])
 
 class _PrintScraper:
@@ -166,6 +166,7 @@ class _QueueScraper(_PrintScraper):
         for i in range(numberOfJobs):
             j = i * 7
             try:
+                onclick_attribute = unicode(print_job_tags[0 + j]['onclick'])
                 name = unicode(print_job_tags[0 + j].string)
                 pages = int(print_job_tags[1 + j].string)
                 copies = int(print_job_tags[2 + j].string)
@@ -176,7 +177,10 @@ class _QueueScraper(_PrintScraper):
                 raise ScrapingError(err)
             except ValueError as err:
                 raise ScrapingError(err)
-            print_jobs.append(PrintJob(name, pages, copies, price, printer_name, date))
+            job_id = re.search(r"c_OnSelectJob\('(.*)'\)", onclick_attribute).group(1)
+            if job_id is None:
+                raise ScrapingError("Print-job id not found for document: {}".format(name))
+            print_jobs.append(PrintJob(job_id, name, pages, copies, price, printer_name, date))
         return print_jobs
 
 

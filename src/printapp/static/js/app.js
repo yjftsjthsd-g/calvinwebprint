@@ -122,7 +122,17 @@ App.SignInController = Ember.Controller.extend({
 });
 
 App.QueueController = Ember.ArrayController.extend({
-  itemController: 'queueItem'
+  itemController: 'queueItem',
+
+  actions : {
+
+    // STUB
+    deleteJob: function(job_id) {
+      var controller = this;
+      // Fill this in with a call to an api.
+    }
+
+  }
 });
 
 App.QueueItemController = Ember.ObjectController.extend({
