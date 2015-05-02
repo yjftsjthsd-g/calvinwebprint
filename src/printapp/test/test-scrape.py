@@ -33,3 +33,15 @@ class TestPrintQueue(unittest.TestCase):
                           'invalidUser', '')
         self.assertRaises(InvalidCredentialsError, get_uniflow_client,
                           '', 'invalidPassword')
+    def test_is_username_and_password_valid(self):
+        self.invalid_username = "lil0"
+        self.invalid_password = "password"
+
+        #good username, good password
+        self.assertTrue(is_username_and_password_valid(self.username, self.password))
+        #good username, bad password
+        self.assertFalse(is_username_and_password_valid(self.username, self.invalid_password))
+        #bad username, good password
+        #self.assertFalse(is_username_and_password_valid(self.invalid_username, self.password))
+        #bad username, bad password
+        self.assertFalse(is_username_and_password_valid(self.invalid_username, self.invalid_password))

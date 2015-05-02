@@ -36,9 +36,8 @@ def login():
         abort(401)
 
     try:
-        printstatus.get_uniflow_client(username, password)
-    except printstatus.InvalidCredentialsError:
-        abort(401)
+        if not printstatus.is_username_and_password_valid(username, password):
+            abort(401)
     except printstatus.NetworkError:
         abort(504)
     except printstatus.ScrapingError:
