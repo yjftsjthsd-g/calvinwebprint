@@ -14,6 +14,15 @@ PRINT_QUEUE_PATH = 'dispObjects.asp'
 def get_uniflow_client(username, password):
     return _UniflowClient(username, password)
 
+def is_username_and_password_valid(username, password):
+    """Return True iff given username and password is valid.
+    """
+    budget_scraper = _BudgetScraper()
+    try:
+        budget_scraper.sign_in(username, password)
+    except InvalidCredentialsError:
+        return False
+    return True
 
 class _UniflowClient:
     def __init__(self, username, password):
